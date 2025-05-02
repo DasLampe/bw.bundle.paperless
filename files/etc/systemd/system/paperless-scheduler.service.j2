@@ -1,0 +1,12 @@
+[Unit]
+Description=Paperless Celery Beat
+Requires=redis.service
+
+[Service]
+User=paperless
+Group=paperless
+WorkingDirectory={{ basedir }}/src
+ExecStart={{ basedir }}/.venv/bin/celery --app paperless beat --loglevel INFO
+
+[Install]
+WantedBy=multi-user.target

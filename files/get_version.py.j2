@@ -1,0 +1,14 @@
+import os
+import os.path
+
+version_file = "{{ basedir }}/src/paperless/version.py"
+
+if os.path.isfile(version_file):
+    exec(open(version_file).read())
+    print(f'Current version is {__full_version_str__}.')
+    print(f'Want version {os.getenv("PAPERLESS_VERSION")}.')
+
+    if __full_version_str__ == os.getenv("PAPERLESS_VERSION"):
+        exit(0)
+
+exit(1)
