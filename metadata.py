@@ -18,6 +18,11 @@ defaults = {
             'password': repo.vault.password_for(f'postgres_paperless_{node.name}').value,
             'ssl_mode': 'prefer',
         },
+        'env': {
+            #'PAPERLESS_DATA_DIR': '../data/'
+            #'PAPERLESS_CONSUMER_RECURSIVE': True,
+            #'PAPERLESS_CONSUMER_ENABLE_COLLATE_DOUBLE_SIDED': True,
+        },
         'secret_key': repo.vault.password_for(f'paperless_secret_key_{node.name}').value,
         'disable_postgres_integration': False,
         'dsiable_redis_integration': False,
