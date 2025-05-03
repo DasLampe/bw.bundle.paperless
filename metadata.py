@@ -1,3 +1,4 @@
+import os.path
 import urllib.parse
 
 import hashlib
@@ -117,6 +118,7 @@ def paperless_redis_integration(metadata):
         },
     }
 
+@metadata_reactor
 def paperless_nginx_integration(metadata):
     if not node.has_bundle('nginx') or metadata.get('paperless/disable_nginx_integration', False):
         raise DoNotRunAgain
@@ -149,4 +151,22 @@ def paperless_nginx_integration(metadata):
                 },
             },
         },
+    }
+
+@metadata_reactor
+def paperless_restic_integration(metadata):
+    if not node.has_bundle('restic'):
+        raise DoNotRunAgain
+
+    src_dir = os.path.join(metadata.get('paperless/basedir'), 'src')
+    data_dir = os.path.normpath(os.path.join(src_dir, metadata.get('paperless/env').get('PAPERLESS_DATA_DIR', '../data/')))
+    media_dir = os.path.normpath(os.path.join(src_dir, metadata.get('paperless/env').get('PAPERLESS_DATA_DIR', '../media/')))
+
+    return {
+        'restic': {
+            'backup_folders': [
+                data_dir,
+                media_dir,
+            ],
+        }
     }
