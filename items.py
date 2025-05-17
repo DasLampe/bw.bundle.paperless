@@ -45,6 +45,22 @@ downloads = {
         'url': f'https://github.com/paperless-ngx/paperless-ngx/releases/download/v{cfg.get('version')}/paperless-ngx-v{cfg.get('version')}.tar.xz',
         'sha512': cfg.get('checksum_sha512'),
     },
+    '/tmp/fixed-ghostscript.deb': {
+        'url': 'https://github.com/paperless-ngx/builder/releases/download/ghostscript-10.03.1/ghostscript_10.03.1.dfsg-1_amd64.deb',
+        'sha512': '6dded58246d834f7b6033b3a8637d58105ae1404a180598ea11ac9101caf33709b2f2f7444fc38bb57222c127c25a748afc39f03631a422b89022be9a8b50d38',
+    },
+    '/tmp/fixed-libgs-common.deb': {
+        'url': 'https://github.com/paperless-ngx/builder/releases/download/ghostscript-10.03.1/libgs-common_10.03.1.dfsg-1_all.deb',
+        'sha512': 'a7606311a4d5916aa17203076dd8a358cedea6128fc669ae40014876f4ffbb47403d72de82ec525d58b4af61db9233ea40f40dac4d213009c0a065147ef1bd97',
+    },
+    '/tmp/fixed-libgs10-common.deb': {
+        'url': 'https://github.com/paperless-ngx/builder/releases/download/ghostscript-10.03.1/libgs10-common_10.03.1.dfsg-1_all.deb',
+        'sha512': '57e4f32bb77bf6c36ee04d4154ea29691f694fa04461cb9d2ccc3666fb34882b5471bb5ccd830f6972be420beaf845fbdb74d757656a4477d8a559e86ce622d2',
+    },
+    '/tmp/fixed-libgs10.deb': {
+        'url': 'https://github.com/paperless-ngx/builder/releases/download/ghostscript-10.03.1/libgs10_10.03.1.dfsg-1_amd64.deb',
+        'sha512': '427ab4ee492eaa7f15d05e671bb96979c9fa6f14bed7d7f47a4c1aeb8d78eb39e58221610555ef568a0f48213dcac1fc7f006c625b9728a06292b6fdd2174e57',
+    }
 }
 
 actions = {
@@ -92,7 +108,14 @@ actions = {
     'paperless_daemon_reload': {
         'command': 'systemctl daemon-reload',
         'triggered': True,
-    }
+    },
+    'install_fixed_paperless_ghostscript': {
+        'command': 'dpkg -i /tmp/fixed-libgs-common.deb /tmp/fixed-libgs10-common.deb /tmp/fixed-libgs10.deb /tmp/fixed-ghostscript.deb',
+        'needs': [
+            'pkg_apt:',
+            'downloads:',
+        ],
+    },
 }
 
 directories = {

@@ -48,7 +48,7 @@ if node.has_bundle('apt'):
             'libzbar0': {},
             'poppler-utils': {},
             'unpaper': {},
-            'ghostscript': {},
+            # 'ghostscript': {}, # Fixed by manual install
             'icc-profiles-free': {},
             'qpdf': {},
             'liblept5': {},
